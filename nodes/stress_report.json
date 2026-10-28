@@ -1,0 +1,310 @@
+{
+ "ts": 1793214278,
+ "phase1": {
+  "status": {
+   "200": 42
+  },
+  "distinct_ok": 42,
+  "elapsed_s": 11.5
+ },
+ "phase2": {
+  "total": 42,
+  "alive": 0,
+  "probes": [
+   {
+    "country": "BR",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "185.183.105.163"
+   },
+   {
+    "country": "MX",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "185.183.105.164"
+   },
+   {
+    "country": "AR",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "185.183.105.166"
+   },
+   {
+    "country": "BE",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "146.70.123.250"
+   },
+   {
+    "country": "AT",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "88.218.1.133"
+   },
+   {
+    "country": "AU",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "185.183.105.162"
+   },
+   {
+    "country": "CA",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "89.238.156.230"
+   },
+   {
+    "country": "BG",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "185.216.32.170"
+   },
+   {
+    "country": "FR",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "135.136.60.51"
+   },
+   {
+    "country": "DK",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "135.136.33.206"
+   },
+   {
+    "country": "CL",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "185.183.105.165"
+   },
+   {
+    "country": "CZ",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "217.138.199.182"
+   },
+   {
+    "country": "FI",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "66.234.150.109"
+   },
+   {
+    "country": "CH",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "185.212.170.188"
+   },
+   {
+    "country": "ES",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "135.136.61.38"
+   },
+   {
+    "country": "DE",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "212.103.50.139"
+   },
+   {
+    "country": "HK",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "185.183.105.166"
+   },
+   {
+    "country": "NL",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "77.243.180.228"
+   },
+   {
+    "country": "JP",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "185.183.105.164"
+   },
+   {
+    "country": "IL",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "185.183.105.162"
+   },
+   {
+    "country": "IT",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "185.183.105.163"
+   },
+   {
+    "country": "GB",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "89.238.191.46"
+   },
+   {
+    "country": "IE",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "77.81.139.13"
+   },
+   {
+    "country": "HU",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "185.94.190.155"
+   },
+   {
+    "country": "GR",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "79.127.218.225"
+   },
+   {
+    "country": "PT",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "79.127.168.146"
+   },
+   {
+    "country": "RS",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "135.136.30.85"
+   },
+   {
+    "country": "RO",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "135.136.73.131"
+   },
+   {
+    "country": "UA",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "143.244.45.43"
+   },
+   {
+    "country": "PL",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "88.218.2.163"
+   },
+   {
+    "country": "RU",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "146.70.231.189"
+   },
+   {
+    "country": "NO",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "146.70.170.170"
+   },
+   {
+    "country": "TR",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "188.213.34.154"
+   },
+   {
+    "country": "ZA",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "185.183.105.162"
+   },
+   {
+    "country": "US",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "185.253.163.203"
+   },
+   {
+    "country": "KZ",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "185.183.105.163"
+   },
+   {
+    "country": "AE",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "185.183.105.165"
+   },
+   {
+    "country": "SE",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "135.136.6.173"
+   },
+   {
+    "country": "AZ",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "185.183.105.164"
+   },
+   {
+    "country": "SG",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "185.183.105.166"
+   },
+   {
+    "country": "IN",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "185.183.105.162"
+   },
+   {
+    "country": "LU",
+    "ok": false,
+    "rtt": null,
+    "detail": "timeout",
+    "endpoint": "185.183.105.166"
+   }
+  ]
+ }
+}

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>Pawxy 节点管理面板</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  :root{--bg:#0d1117;--panel:#161b22;--line:#30363d;--fg:#e6edf3;--dim:#8b949e;
+        --ok:#3fb950;--warn:#d29922;--bad:#f85149;--acc:#58a6ff;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+       font:14px/1.5 -apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+  header{padding:18px 24px;border-bottom:1px solid var(--line);
+         display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  h1{font-size:17px;margin:0;font-weight:600;letter-spacing:.2px}
+  .badge{font-size:12px;padding:2px 8px;border-radius:10px;border:1px solid var(--line);color:var(--dim)}
+  .badge b{color:var(--fg)}
+  main{padding:20px 24px}
+  .toolbar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
+  input,select,button{background:var(--panel);color:var(--fg);border:1px solid var(--line);
+        border-radius:6px;padding:6px 10px;font-size:13px;font-family:inherit}
+  button{cursor:pointer}
+  button:hover{border-color:var(--acc);color:var(--acc)}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+  th{color:var(--dim);font-weight:500;position:sticky;top:0;background:var(--bg)}
+  tr:hover td{background:#1c2128}
+  .mono{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
+  .ok{color:var(--ok)} .bad{color:var(--bad)} .warn{color:var(--warn)} .dim{color:var(--dim)}
+  .pill{font-size:11px;padding:1px 7px;border-radius:9px;border:1px solid var(--line)}
+  .pill.p{border-color:#6e40c9;color:#b392f0}
+  .pill.f{border-color:#238636;color:#3fb950}
+  #out{margin-top:18px;background:var(--panel);border:1px solid var(--line);border-radius:8px;
+       padding:14px;display:none}
+  pre{margin:0;overflow:auto;font-size:12px;max-height:340px}
+  .flag{font-size:16px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Pawxy · 节点管理面板</h1>
+  <span class="badge">节点 <b id="c-total">-</b></span>
+  <span class="badge">免费 <b id="c-free">-</b></span>
+  <span class="badge">高级 <b id="c-premium">-</b></span>
+  <span class="badge">上游 <b class="mono">api.quxiq.com</b></span>
+</header>
+
+<main>
+  <div class="toolbar">
+    <input id="q" placeholder="搜索国家 / IP / 城市" size="26">
+    <select id="filter">
+      <option value="">全部</option>
+      <option value="free">仅免费</option>
+      <option value="premium">仅高级</option>
+    </select>
+    <button onclick="probeAll()">全部探活</button>
+    <button onclick="reload()">刷新列表</button>
+    <span id="status" class="dim"></span>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>#</th><th>国家</th><th>代码</th><th>城市</th><th>Endpoint</th>
+          <th>等级</th><th>握手</th><th>RTT</th><th>操作</th></tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+
+  <div id="out"><pre id="outpre"></pre></div>
+</main>
+
+<script>
+const flag = c => c.replace(/./g, ch => String.fromCodePoint(127397 + ch.charCodeAt(0)));
+let NODES = {};
+
+async function reload() {
+  setStatus("加载中…");
+  const r = await fetch("/api/nodes");
+  const j = await r.json();
+  NODES = j.nodes || {};
+  document.getElementById("c-total").textContent = j.count;
+  const prem = Object.values(NODES).filter(n => n.premium).length;
+  document.getElementById("c-free").textContent = j.count - prem;
+  document.getElementById("c-premium").textContent = prem;
+  render();
+  setStatus(`已加载 ${j.count} 个节点`);
+}
+
+function render() {
+  const q = document.getElementById("q").value.trim().toLowerCase();
+  const f = document.getElementById("filter").value;
+  const tb = document.getElementById("rows");
+  const list = Object.values(NODES)
+    .filter(n => (!f || (f === "premium" ? n.premium : !n.premium)))
+    .filter(n => !q || [n.country, n.datacenter, n.endpoint].join(" ").toLowerCase().includes(q))
+    .sort((a, b) => a.country.localeCompare(b.country));
+  tb.innerHTML = list.map((n, i) => `
+    <tr data-code="${n.country}">
+      <td class="dim">${i + 1}</td>
+      <td class="flag">${flag(n.country)}</td>
+      <td><b>${n.country}</b></td>
+      <td class="dim">${n.datacenter || ""}</td>
+      <td class="mono">${n.endpoint}:${n.port}</td>
+      <td><span class="pill ${n.premium ? "p" : "f"}">${n.premium ? "premium" : "free"}</span></td>
+      <td class="st dim">—</td>
+      <td class="rtt dim">—</td>
+      <td>
+        <button onclick="probe('${n.country}')">探活</button>
+        <button onclick="install('${n.country}')">取凭证</button>
+      </td>
+    </tr>`).join("");
+}
+
+function row(code) { return document.querySelector(`tr[data-code="${code}"]`); }
+
+async function probe(code) {
+  const tr = row(code); if (!tr) return;
+  tr.querySelector(".st").textContent = "…";
+  const r = await fetch(`/api/probe?code=${code}`);
+  const j = await r.json();
+  const st = tr.querySelector(".st"), rtt = tr.querySelector(".rtt");
+  if (j.handshake) {
+    st.textContent = "握手成功"; st.className = "st ok";
+    rtt.textContent = j.rtt_ms + " ms"; rtt.className = "rtt ok";
+  } else {
+    st.textContent = j.detail || "失败"; st.className = "st bad";
+    rtt.textContent = j.rtt_ms ? j.rtt_ms + " ms" : "—"; rtt.className = "rtt bad";
+  }
+}
+
+async function probeAll() {
+  const codes = Object.keys(NODES);
+  setStatus(`探活 0/${codes.length}…`);
+  let i = 0;
+  const queue = codes.slice();
+  const worker = async () => {
+    while (queue.length) {
+      const c = queue.shift();
+      await probe(c);
+      setStatus(`探活 ${++i}/${codes.length}…`);
+    }
+  };
+  await Promise.all([worker(), worker(), worker(), worker(), worker(), worker()]);
+  setStatus(`探活完成 ${codes.length} 个节点`);
+}
+
+async function install(code) {
+  const box = document.getElementById("out"), pre = document.getElementById("outpre");
+  box.style.display = "block";
+  pre.textContent = `正在为 ${code} 申请新凭证…`;
+  const r = await fetch("/api/install", {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ country: code })
+  });
+  const j = await r.json();
+  pre.textContent = j.ok ? j.config.conf : JSON.stringify(j, null, 1);
+}
+
+function setStatus(t) { document.getElementById("status").textContent = t; }
+
+document.getElementById("q").addEventListener("input", render);
+document.getElementById("filter").addEventListener("change", render);
+reload();
+</script>
+</body>
+</html>

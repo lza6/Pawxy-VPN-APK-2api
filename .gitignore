@@ -1,0 +1,8 @@
+nodes/nodes.json
+nodes/wg/
+nodes/countries.json
+nodes/demo_server.log
+demo/singbox/sb/
+__pycache__/
+*.pyc
+.venv/
